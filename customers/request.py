@@ -3,19 +3,22 @@ CUSTOMERS = [
       "email": "sanjeet.p@gmail.com",
       "password": "sanjeet123",
       "name": "sanjeet prasad",
-      "id": 1
+      "id": 1,
+      "status": "Ready for delever"
     },
     {
       "email": "jayna@gmail.com",
       "password": "123456",
       "name": "Jayna Leitze",
-      "id": 2
+      "id": 2,
+      "status": "Ready for delever"
     },
     {
       "email": "alice@gmail.com",
       "password": "123456",
       "name": "Alice Nie",
-      "id": 3
+      "id": 3,
+      "status": "Ready for delever"
     }
 ]
 
@@ -67,3 +70,12 @@ def delete_customer(id):
     # If the animal was found, use pop(int) to remove it from list
     if customer_index >= 0:
         CUSTOMERS.pop(customer_index)
+
+def update_customer(id, new_customer):
+    # Iterate the ANIMALS list, but use enumerate() so that
+    # you can access the index value of each item.
+    for index, customer in enumerate(CUSTOMERS):
+        if customer["id"] == id:
+            # Found the animal. Update the value.
+            CUSTOMERS[index] = new_customer
+            break        
