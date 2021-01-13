@@ -2,34 +2,40 @@ EMPLOYEES = [
     {
       "id": 1,
       "name": "Tom Bisop",
-      "locationId": 1
+      "locationId": 1,
+      "status": "Ready for delever"
     },
     {
       "id": 2,
       "name": "Jon Edward",
-      "locationId": 2
+      "locationId": 2,
+      "status": "Ready for delever"
     },
     {
       "id": 3,
       "name": "Jeremy Bakker",
-      "locationId": 3
+      "locationId": 3,
+      "status": "Ready for delever"
     },
     {
       "id": 4,
       "name": "Herry Parker",
-      "locationId": 2
+      "locationId": 2,
+      "status": "Ready for delever"
     },
     {
       "name": "Mango",
       "locationId": 2,
       "animalId": 4,
-      "id": 5
+      "id": 5,
+      "status": "Ready for delever"
     },
     {
       "name": "Hero",
       "locationId": 2,
       "animalId": 6,
-      "id": 6
+      "id": 6,
+      "status": "Ready for delever"
     }
 ]
 
@@ -82,4 +88,13 @@ def delete_employee(id):
 
     # If the animal was found, use pop(int) to remove it from list
     if employee_index >= 0:
-        EMPLOYEES.pop(employee_index)    
+        EMPLOYEES.pop(employee_index)
+
+def update_employee(id, new_employee):
+    # Iterate the ANIMALS list, but use enumerate() so that
+    # you can access the index value of each item.
+    for index, employee in enumerate(EMPLOYEES):
+        if employee["id"] == id:
+            # Found the animal. Update the value.
+            EMPLOYEES[index] = new_employee
+            break            
