@@ -50,3 +50,21 @@ def get_single_employee(id):
             requested_employee = employee
 
     return requested_employee  
+
+def create_employee(employee):
+
+    # get the id value of the last employee in the list
+    max_id = EMPLOYEES[-1]["id"]
+
+    #add 1 to whatever the last number is
+    new_id = max_id + 1
+
+    # Add an "id" property to the employee dictionary
+    employee["id"] = new_id
+
+    #Add the animal dictionary to the list
+    EMPLOYEES.append(employee)
+
+    #return the dictionary with 'id' property added
+
+    return employee
