@@ -1,44 +1,76 @@
-CUSTOMERS = [
-    {
-      "email": "sanjeet.p@gmail.com",
-      "password": "sanjeet123",
-      "name": "sanjeet prasad",
-      "id": 1,
-      "status": "Ready for delever"
-    },
-    {
-      "email": "jayna@gmail.com",
-      "password": "123456",
-      "name": "Jayna Leitze",
-      "id": 2,
-      "status": "Ready for delever"
-    },
-    {
-      "email": "alice@gmail.com",
-      "password": "123456",
-      "name": "Alice Nie",
-      "id": 3,
-      "status": "Ready for delever"
-    }
-]
+import sqlite3 
+import json
+from models import Customer
+
 
 def get_all_customers():
-      return CUSTOMERS
+     with sqlite3.connect("./kennel.db") as conn:
+         conn.row_factory = sqlite3.Row
+         db_cursor = conn.cursor()
+
+         db_cursor.execute( """
+         SELECT
+           c.id,
+           c.name,
+           c.address,
+           c.email,
+           c.password
+           
+         FROM customer c  
+         """)
+
+         customers = []
+
+         dataset = db_cursor.fetchall()
+
+         for row in dataset:
+             customer = Customer(row['id'], row['name'], row['address'], row['email'], row['password'])
+
+             customers.append(customer.__dict__)
+
+     return json.dumps(customers)
 
   # Function with a single parameter
 def get_single_customer(id):
-    # Variable to hold the found animal, if it exists
-    requested_customer = None
+    # # Variable to hold the found animal, if it exists
+    # requested_customer = None
 
-    # Iterate the ANIMALS list above. Very similar to the
-    # for..of loops you used in JavaScript.
-    for customer in CUSTOMERS:
-        # Dictionaries in Python use [] notation to find a key
-        # instead of the dot notation that JavaScript used.
-        if customer["id"] == id:
-            requested_customer = customer
+    # # Iterate the ANIMALS list above. Very similar to the
+    # # for..of loops you used in JavaScript.
+    # for customer in CUSTOMERS:
+    #     # Dictionaries in Python use [] notation to find a key
+    #     # instead of the dot notation that JavaScript used.
+    #     if customer["id"] == id:
+    #         requested_customer = customer
 
-    return requested_customer  
+    # return requested_customer
+
+    with sqlite3.connect("./kennel.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            c.id,
+            c.name,
+            c.address,
+            c.email,
+            c.password
+        FROM customer c
+        WHERE c.id = ?
+        """, ( id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an animal instance from the current row
+        customer = Customer(data['id'], data['name'], data['address'],
+                            data['email'], data['password'])
+
+        return json.dumps(customer.__dict__)  
+
 
 def create_customer(customer):
     # Get the id value of the last animal in the list
