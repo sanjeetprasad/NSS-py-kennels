@@ -23,6 +23,17 @@ CREATE TABLE `Animal` (
 	FOREIGN KEY(`location_id`) REFERENCES `Location`(`id`)
 );
 
+SELECT 
+    a.name animal_name,
+	c.name customer_name,
+	l.name location_name
+FROM Animal a
+JOIN Customer c 
+     ON a.customer_id = c.id
+JOIN Location l 
+     ON  a.location_id = l.id
+;
+
 
 CREATE TABLE `Employee` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -55,3 +66,15 @@ INSERT INTO `Employee` VALUES (null, "Leah Hoefling", "200 Success Way", 2);
 
 INSERT INTO `Location` VALUES (null, 'Nashville North', "64 Washington Heights");
 INSERT INTO `Location` VALUES (null, 'Nashville South', "101 Penn Ave");
+
+
+SELECT
+    a.id,
+    a.name,
+    a.breed,
+    a.status,
+    a.location_id,
+    a.customer_id
+FROM animal a
+WHERE a.id = 3
+;
