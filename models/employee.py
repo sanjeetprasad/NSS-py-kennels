@@ -11,7 +11,4 @@ class Employee():
         
 
 
-    #     "id": 1,
-    #   "name": "Tom Bisop",
-    #   "locationId": 1,
-    #   "status": "Ready for delever"
+ 

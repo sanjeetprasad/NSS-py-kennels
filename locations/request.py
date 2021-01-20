@@ -3,26 +3,14 @@ import json
 from models import Location
 
 
-# LOCATIONS = [
-#     {
-#       "id": 1,
-#       "name": "Nashville North",
-#       "address": "8422 Johnson Pike",
-#       "status": "Ready for discharge"
-#     },
-#     {
-#       "id": 2,
-#       "name": "Nashville South",
-#       "address": "209 Emory Drive",
-#       "status": "Ready for discharge"
-#     },
-#     {
-#       "id": 3,
-#       "name": "Nashville East",
-#       "address": "209 Emory Drive",
-#       "status": "Ready for discharge"
-#     }
-# ]
+LOCATIONS = [
+    {
+      "id": 1,
+      "name": "Nashville North",
+      "address": "8422 Johnson Pike",
+      "status": "Ready for discharge"
+    }
+]
 
 def get_all_locations():
     # Open a connection to the database
