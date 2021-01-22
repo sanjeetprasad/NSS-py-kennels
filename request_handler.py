@@ -74,7 +74,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Parse URL and store entire tuple in a variable
         parsed = self.parse_url(self.path)
-
+        print (parsed)
         # Response from parse_url() is a tuple with 2
         # items in it, which means the request was for
         # `/animals` or `/animals/2`
@@ -88,19 +88,20 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_all_animals()}"
             elif resource == "locations":
                 if id is not None:
-                    resource = f"{get_single_location(id)}"
+                    response = f"{get_single_location(id)}"
                 else:
-                    resource = f"{get_all_locations()}"               
+                    response = f"{get_all_locations()}"               
             elif resource == "customers":
                 if id is not None:
                     response = f"{get_single_customer(id)}"
                 else:
                     response = f"{get_all_customers()}"
             elif resource == "employees":
+                print ("hello")
                 if id is not None:
-                    resource = f"{get_single_employee(id)}"
+                    response = f"{get_single_employee(id)}"
                 else:
-                    resource = f"{get_all_employees()}"            
+                    response = f"{get_all_employees()}"            
 
         # Response from parse_url() is a tuple with 3
         # items in it, which means the request was for
@@ -119,7 +120,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 response = get_animals_by_status(value)
             elif key == "location_id" and resource == "employees":
                 response = get_employees_by_location(value)            
-
+        print (response)
         self.wfile.write(response.encode())
 
     # Here's a method on the class that overrides the parent's method.
