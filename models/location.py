@@ -8,6 +8,8 @@ class Location():
         self.name = name
         self.address = address
         
+             
+        
 
 
 
