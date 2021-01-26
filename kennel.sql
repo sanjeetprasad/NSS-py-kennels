@@ -96,3 +96,6 @@ FROM Animal a
 JOIN Location l
     ON l.id = a.location_id
 ;
+
+
+SELECT * FROM Animals ORDER BY id DESC;

@@ -41,8 +41,9 @@ def get_all_animals():
         JOIN Location l
             ON l.id = a.location_id
         JOIN Customer c
-            ON c.id = a.customer_id    
-        """)
+            ON c.id = a.customer_id
+       
+        """, )
 
         # Initialize an empty list to hold all animal representations
         animals = []
@@ -101,8 +102,16 @@ def get_single_animal(id):
             a.breed,
             a.status,
             a.location_id,
-            a.customer_id
+            a.customer_id,
+            l.name location_name,
+            c.id customer_id,
+            c.name customer_name,
+            c.address customer_address
         FROM animal a
+        JOIN Location l
+            ON l.id = a.location_id
+        JOIN Customer c
+            ON c.id = a.customer_id
         WHERE a.id = ?
         """, ( id, ))
 
@@ -114,23 +123,59 @@ def get_single_animal(id):
                             data['status'], data['location_id'],
                             data['customer_id'])
 
+                    
+                    
+        location = Location(data['location_id'], data['location_name'])
+
+        customer = Customer(data['customer_id'], data['customer_name'], data['customer_address'])
+
+            
+        animal.customer = customer.__dict__  
+
+        animal.location = location.__dict__                    
+         
         return json.dumps(animal.__dict__)
 
-def create_animal(animal):
-    # Get the id value of the last animal in the list
-    max_id = ANIMALS[-1]["id"]
+def create_animal(new_animal):
+    # # Get the id value of the last animal in the list
+    # max_id = ANIMALS[-1]["id"]
 
-    # Add 1 to whatever that number is
-    new_id = max_id + 1
+    # # Add 1 to whatever that number is
+    # new_id = max_id + 1
 
-    # Add an `id` property to the animal dictionary
-    animal["id"] = new_id
+    # # Add an `id` property to the animal dictionary
+    # animal["id"] = new_id
 
-    # Add the animal dictionary to the list
-    ANIMALS.append(animal)
+    # # Add the animal dictionary to the list
+    # ANIMALS.append(animal)
 
-    # Return the dictionary with `id` property added
-    return animal 
+    # # Return the dictionary with `id` property added
+    # return animal 
+
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO Animal
+            ( name, breed, status, location_id, customer_id )
+        VALUES
+            ( ?, ?, ?, ?, ?);
+        """, (new_animal['name'], new_animal['breed'],
+              new_animal['status'], new_animal['locationId'],
+              new_animal['customerId'], ))
+
+        # The `lastrowid` property on the cursor will return
+        # the primary key of the last thing that got added to
+        # the database.
+        id = db_cursor.lastrowid
+
+        # Add the `id` property to the animal dictionary that
+        # was sent by the client so that the client sees the
+        # primary key in the response.
+        new_animal['id'] = id
+
+
+    return json.dumps(new_animal)
 
 def delete_animal(id):
     # # Initial -1 value for animal index, in case one isn't found

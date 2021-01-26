@@ -97,7 +97,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     response = f"{get_all_customers()}"
             elif resource == "employees":
-                print ("hello")
+                # print ("hello")
                 if id is not None:
                     response = f"{get_single_employee(id)}"
                 else:
@@ -114,11 +114,11 @@ class HandleRequests(BaseHTTPRequestHandler):
             # email as a filtering value?
             if key == "email" and resource == "customers":
                 response = get_customers_by_email(value)
-            elif key == "location_id" and resource == "animals":
+            if key == "location_id" and resource == "animals":
                 response = get_animals_by_location(value)
-            elif key == "status" and resource == "animals":
+            if key == "status" and resource == "animals":
                 response = get_animals_by_status(value)
-            elif key == "location_id" and resource == "employees":
+            if key == "location_id" and resource == "employees":
                 response = get_employees_by_location(value)            
         print (response)
         self.wfile.write(response.encode())
